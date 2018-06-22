@@ -4,8 +4,8 @@ from testrail import *
 
 #Sending POST request to TestRail API for updating a test case via case id
 client = APIClient('https://cloudbyte.testrail.com/')
-client.user='karthik.s@cloudbyte.com'
-client.password='openebs'
+client.user=------------
+client.password=-------------
 
 
 run_id='1711'

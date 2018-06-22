@@ -3,8 +3,8 @@ from testrail import *
 import pprint
 
 client = APIClient('https://cloudbyte.testrail.com')
-client.user = 'karthik.s@cloudbyte.com'
-client.password = 'openebs'
+client.user = --------
+client.password = --------
 
 case = client.send_post(
 	'add_run/1' , 
