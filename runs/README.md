@@ -1,6 +1,6 @@
-This folder contains -- __the code to create run from existing suite and update the test cases inside suite by reading csv file.__
+This folder contains __the code to create run from existing suite and update the test cases inside suite by reading csv file.__
 * * * 
--- Files:
+Files:
 
 **testrail.py** Used for authenticating with testrail
 **make_github_issue.py** Creates Github Issues
