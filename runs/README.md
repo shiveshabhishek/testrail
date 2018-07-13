@@ -1,4 +1,4 @@
-This folder contains __the code to create run from existing suite and update the test cases inside suite by reading csv file.__
+This folder contains __the code to create run from existing suite and update the test cases within the suite by reading csv file.__
 * * * 
 Files:
 
