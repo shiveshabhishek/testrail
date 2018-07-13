@@ -1,0 +1,1 @@
+This folder contains script that gets credentials from a specific folder , logs into testrail, reads the github URL from a case 'preconfigs' part and downloads the respective content of github URL(directory)
