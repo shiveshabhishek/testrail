@@ -46,13 +46,9 @@ plan = client.send_post('add_plan/3',
   {'name':plan_name ,'description': 'creating from API call'}
 )
 
-#print('Plan returns: ')
-print('---------------')
-pprint.pprint(plan)
-print('---------------')
 
 plan_id=str(plan['id'])
-print('plan id:',plan_id)
+print('Plan created.\nPlan id:',plan_id)
 
 for suite in suite_id:
   plan_entry=client.send_post('add_plan_entry/'+plan_id,
@@ -73,5 +69,7 @@ else:
 tp_result=open(result_path+'/result.json','w+')
 if tp_result.write('{"plan_name" : "' +plan_name+ '",\n"plan_id" : "' +plan_id+ '",\n"Status" : "Plan Created(Passed)"\n}'):
   print ("Success in creating test plan result file")
+else:
+  print("Error creating Test Plan result file")
 tp_result.close()
 
