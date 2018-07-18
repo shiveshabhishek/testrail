@@ -59,14 +59,14 @@ result_path=path+'plan-'+str(plan_name)
 try:
   os.mkdir(result_path,access_rights)
 except OSError:
-  print("Directory %s creation failed\n" %path)
+  print("Directory %s creation failed\n" %result_path)
 else:
-  print("Successfully Created file %s \n" %path)
+  print("Successfully Created file %s \n" %result_path)
 
 #Updating the Plan name and Plan ID to a json file.
 tp_result=open(result_path+'/result.json','w+')
-if tp_result.write('{"plan_name" : "' +plan_name+ '",\n"plan_id" : "' +plan_id+ '\n}'):
-  print ("Success in creating test plan result file")
+if tp_result.write('{"plan_name" : "' +plan_name+ '",\n"plan_id" : "' +plan_id+ '"\n}'):
+  print ("Success in creating Test Plan result file")
 else:
   print("Error creating Test Plan result file")
 tp_result.close()
