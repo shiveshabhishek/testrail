@@ -21,8 +21,6 @@ suite_file=open(path+'testsuites.json','r')
 suites=suite_file.read()
 suites=json.loads(suites)
 
-# print(suites)
-
 suite_ids=suites['suite_ids']
 # print(suite_ids)
 
@@ -31,8 +29,7 @@ suite_id=suite_ids.split(',')
 
 
 suite_file.close()
-print('suites to be added: ')
-
+print('Suites to be added in the Plan: ')
 for suite in suite_id:
   print(suite)
 
@@ -46,7 +43,7 @@ plan = client.send_post('add_plan/3',
   {'name':plan_name ,'description': 'creating from API call'}
 )
 
-
+#Get the Plan ID
 plan_id=str(plan['id'])
 print('Plan created.\nPlan id:',plan_id)
 
@@ -55,7 +52,7 @@ for suite in suite_id:
   {'suite_id':suite,'description': 'This Test Plan is Created via bootstrap_create_testplan'}
   )
 
-print('------PLAN CREATED SUCCESSFULLY-----')
+print('------Added Suites to Plan -----')
 
 result_path=path+'plan-'+str(plan_name)
 
@@ -66,10 +63,10 @@ except OSError:
 else:
   print("Successfully Created file %s \n" %path)
 
+#Updating the Plan name and Plan ID to a json file.
 tp_result=open(result_path+'/result.json','w+')
-if tp_result.write('{"plan_name" : "' +plan_name+ '",\n"plan_id" : "' +plan_id+ '",\n"Status" : "Plan Created(Passed)"\n}'):
+if tp_result.write('{"plan_name" : "' +plan_name+ '",\n"plan_id" : "' +plan_id+ '\n}'):
   print ("Success in creating test plan result file")
 else:
   print("Error creating Test Plan result file")
 tp_result.close()
-
