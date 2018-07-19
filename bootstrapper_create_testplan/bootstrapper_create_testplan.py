@@ -1,18 +1,23 @@
 #This script needs 3 arguments: username, password, Build number 
-import pprint
-import os
-import sys
+import os,sys
+import argparse
 import datetime
 from testrail import * 
 
 now=datetime.datetime.now()
 date=str(now)[:10]
-#suites=[798,801,804,802]
-build_no=sys.argv[3]
-username=sys.argv[1]
-password=sys.argv[2]
 
-path='/tmp/'+date+'/testrail/'
+#Get arguments from command line
+parser = argparse.ArgumentParser(description='Bootstrapper create testplan to create Plan containing list of specific suites entered in bootstrapper init')
+parser.add_argument('-bn', '--build_number', help='Build number from Jenkins', required=True)
+parser.add_argument('-user', '--user_name', help='Username of TestRail', required=True)
+parser.add_argument('-pass', '--password',help='Password of Testrail', required=True)
+args = vars(parser.parse_args())
+build_number=args['build_number']
+username=args['user_name']
+password=args['password']
+
+path='/tmp/'+date+'-'+build_number+'/testrail/'
 
 access_rights = 0o755
 
@@ -20,25 +25,18 @@ suite_file=open(path+'testsuites.json','r')
 
 suites=suite_file.read()
 suites=json.loads(suites)
-
 suite_ids=suites['suite_ids']
-# print(suite_ids)
-
 suite_id=suite_ids.split(',')
-# print(suite_id)
-
-
 suite_file.close()
+
 print('Suites to be added in the Plan: ')
 for suite in suite_id:
   print(suite)
 
-
 client = APIClient('https://cloudbyte.testrail.com')
 client.user = username
 client.password = password
-
-plan_name=date+'-build-'+build_no
+plan_name=date+'-build-'+build_number
 plan = client.send_post('add_plan/3',
   {'name':plan_name ,'description': 'creating from API call'}
 )
@@ -46,16 +44,15 @@ plan = client.send_post('add_plan/3',
 #Get the Plan ID
 plan_id=str(plan['id'])
 print('Plan created.\nPlan id:',plan_id)
-
+#Add entries to Plan
 for suite in suite_id:
   plan_entry=client.send_post('add_plan_entry/'+plan_id,
   {'suite_id':suite,'description': 'This Test Plan is Created via bootstrap_create_testplan'}
   )
-
 print('------Added Suites to Plan -----')
 
+#Create Directory to Store the result(Test Plan Name and ID)
 result_path=path+'plan-'+str(plan_name)
-
 try:
   os.mkdir(result_path,access_rights)
 except OSError:
@@ -63,10 +60,10 @@ except OSError:
 else:
   print("Successfully Created file %s \n" %result_path)
 
-#Updating the Plan name and Plan ID to a json file.
-tp_result=open(result_path+'/result.json','w+')
-if tp_result.write('{"plan_name" : "' +plan_name+ '",\n"plan_id" : "' +plan_id+ '"\n}'):
+#Store the Plan name and Plan ID to a json file
+tp_result=open(result_path+'/tp_create_result.json','w+')
+if tp_result.write('{\n  "plan_name" : "' +plan_name+ '",\n  "plan_id" : "' +plan_id+ '"\n}'):
   print ("Success in creating Test Plan result file")
 else:
-  print("Error creating Test Plan result file")
+  print("Error while creating Test Plan result file")
 tp_result.close()
