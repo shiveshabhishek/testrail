@@ -10,8 +10,8 @@
 # Copyright Gurock Software GmbH. See license.md for details.
 #
 
+# import urllib.request, urllib.error
 from urllib2 import urlopen
-import urllib.error
 import json, base64
 
 class APIClient:
