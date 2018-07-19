@@ -19,19 +19,22 @@ suite_ids=args['suite_ids']
 path='/tmp/'+date+'-'+build_number+'/'
 #define access rights
 access_rights = 0o755
+def main():
+  #Create file in specified directory
+  testrail_path=path+'testrail'
+  try:
+    os.makedirs(testrail_path,access_rights)
+  except OSError:
+    print("Testrail DIR creation failed(file already exists) \n")
+  else:
+    print("Successfully Created file %s \n" %testrail_path)
+  #Open and write file to the newly created directory
+  suites_file=open(testrail_path+'/testsuites.json','w+')
+  if suites_file.write('{\n  "build_number" : "' +build_number+ '", \n  "suite_ids" : "'+suite_ids+'"\n}'):
+    print ("Success in writing suites to file")
+  else:
+    print('Error writing suites to file')
+  suites_file.close()
 
-#Create file in specified directory
-testrail_path=path+'testrail'
-try:
-  os.makedirs(testrail_path,access_rights)
-except OSError:
-  print("Testrail DIR creation failed(file already exists) \n")
-else:
-  print("Successfully Created file %s \n" %testrail_path)
-#Open and write file to the newly created directory
-suites_file=open(testrail_path+'/testsuites.json','w+')
-if suites_file.write('{\n  "build_number" : "' +build_number+ '", \n  "suite_ids" : "'+suite_ids+'"\n}'):
-  print ("Success in writing suites to file")
-else:
-  print('Error writing suites to file')
-suites_file.close()
+if __name__=="__main__":
+  main()
