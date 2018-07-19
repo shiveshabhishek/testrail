@@ -12,6 +12,7 @@
 
 # import urllib.request, urllib.error
 from urllib2 import urlopen
+from urllib import *
 import json, base64
 
 class APIClient:
